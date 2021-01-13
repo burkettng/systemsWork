@@ -1,0 +1,163 @@
+		.orig x3000
+		JSR STRCAT
+		PUTS
+		HALT
+
+FINDLAST	ST R7, VAR7
+		ST R1, VAR1
+		ST R2, VAR2
+
+		ADD R2, R0, #0
+		LDR R0, R2, #0
+		BRZ GETOUT
+
+TOP		ADD R2, R2, #1
+		LDR R0, R2, #0
+		BRZ GTLST
+		BRNZP TOP
+
+GTLST		ADD R2, R2, #-1
+		ADD R0, R2, #0
+
+GETOUT		LD R7, VAR7
+		LD R1, VAR1
+		LD R2, VAR2
+
+		RET
+
+
+FINDCHAR	ST R1, VAR1
+		ST R2, VAR2
+		ST R3, VAR3
+		ST R4, VAR4
+		ST R7, VAR7
+
+		AND R4, R4, #0
+		NOT R0, R0 
+		ADD R0, R0, #1
+		
+		ADD R2, R1, #0
+		LDR R1, R2, #0
+		BRZ OUTNEG
+
+CHECK		ADD R3, R0, R1
+		BRZ DONE
+		BRNZP TOPLOOP
+
+TOPLOOP		ADD R2, R2, #1
+		ADD R4, R4, #1
+		LDR R1, R2, #0
+		BRZ OUTNEG
+		BRNZP CHECK
+
+OUTNEG		LD R0, NEGFILL 
+		BRNZP SAVEREG
+
+DONE		ADD R0, R4, #0
+
+SAVEREG		LD R1, VAR1
+		LD R2, VAR2
+		LD R3, VAR3
+		LD R4, VAR4
+		LD R7, VAR7
+
+		RET
+
+STRCAT		ST R0, VAR0
+		ST R1, VAR1
+		ST R2, VAR2
+		ST R3, VAR3
+		ST R4, VAR4
+		ST R7, VAR7
+
+		ADD R4, R7, #0	
+		
+		JSR FINDLAST
+		
+		ADD R7, R4, #0
+
+		ST R7, VAR7
+
+		ADD R0, R0, #0
+		BRZ ENDNOW
+
+		ADD R0, R0, #1
+
+		ADD R2, R1, #0
+LOOP1		LDR R1, R2, #0
+		BRZ ENDNOW
+		STR R1, R0, #0
+		ADD R0, R0, #1
+		ADD R2, R2, #1
+		BRNZP LOOP1
+
+
+ENDNOW		AND R3, R3, #0
+		ADD R3, R3, #0
+		STR R3, R0, #0
+
+		LD R0, VAR0
+		LD R1, VAR1
+		LD R2, VAR2
+		LD R3, VAR3
+		LD R4, VAR4
+		LD R7, VAR7
+
+		RET
+
+TOUPPER		ST R0, VAR0
+		ST R1, VAR1
+		ST R2, VAR2
+		ST R3, VAR3
+		ST R4, VAR4
+		ST R5, VAR5
+		ST R6, VAR6
+		ST R7, VAR7
+		
+		LD R4, N96
+		LD R5, N123
+		LD R6, N32
+		
+		ADD R1, R0, #0		
+
+TOP1		LDR R0, R1, #0
+		BRZ GETOUT1
+		
+		ADD R2, R0, R4
+		BRNZ BOTTOM
+		
+		ADD R2, R0, R5
+		BRZP BOTTOM
+
+		ADD R0, R0, R6
+		STR R0, R1, #0
+		
+
+BOTTOM		ADD R1, R1, #1
+		BRNZP TOP1				
+
+GETOUT1		LD R0, VAR0
+		LD R1, VAR1
+		LD R2, VAR2
+		LD R3, VAR3
+		LD R4, VAR4
+		LD R5, VAR5
+		LD R6, VAR6
+		LD R7, VAR7
+
+		RET
+	
+VAR7		.fill 0
+VAR0		.fill 0
+VAR1		.fill 0
+VAR2		.fill 0
+VAR3		.fill 0
+VAR4		.fill 0
+VAR5		.fill 0
+VAR6		.fill 0
+NEGFILL		.fill -1
+N96		.fill -96
+N123		.fill -123
+N32		.fill -32
+
+		.end
