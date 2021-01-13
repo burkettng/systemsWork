@@ -1,0 +1,15 @@
+//Symbol Name		Page Address
+//----------------	------------
+//	GETALPHA                3019
+//	N123                    303B
+//	N40                     3038
+//	N91                     3039
+//	N95                     3037
+//	N96                     303A
+//	PRINTCHAR               302F
+//	PROMPT                  3005
+//	R_OUT                   3030
+//	TOP                     301C
+//	VAR1                    3035
+//	VAR2                    3036
+//	VAR7                    3034
